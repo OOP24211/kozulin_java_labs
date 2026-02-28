@@ -9,7 +9,7 @@ public final class CliValidator {
         ValidatorErrors errors = new ValidatorErrors();
 
         if (args == null || args.length != 2) {
-            errors.addError("Ошибка в аргументах! Используйте так: <Текстовый файл на ввод> <Файл, куда сохранять результат .csv> - указывать файл вывода опционально");
+            errors.addError("Ошибка в аргументах! Используйте так: <Текстовый файл на ввод> <Файл, куда сохранять результат .csv>");
             return errors;
         }
 
