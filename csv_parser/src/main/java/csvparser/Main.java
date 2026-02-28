@@ -34,3 +34,4 @@ public class Main {
         System.out.println("Результат сохранён в файл: " + output.toAbsolutePath());
     }
 }
+
