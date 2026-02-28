@@ -1,23 +1,27 @@
 package csvparser;
 
+import csvparser.Validators.CliValidator;
+import csvparser.Validators.ValidatorErrors;
+
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        if (args.length != 2) {
-            System.err.println("Использование: <Текстовый файл на ввод> <Файл, куда сохранять результат .csv>");
+
+
+        CliValidator cliValidator = new CliValidator();
+        ValidatorErrors validator = cliValidator.validateArgs(args);
+
+        if (validator.hasErrors()) {
+            for (String error : validator.errors()) {
+                System.err.println(error);
+            }
             return;
         }
-
         Path input = Path.of(args[0]);
         Path output = Path.of(args[1]);
 
-        if (!Files.isRegularFile(input)) {
-            System.err.println("Ошибка открытия файла: " + input);
-            return;
-        }
 
         WordExtractor extractor = new WordExtractor();
         WordStatsCollector collector = new WordStatsCollector();
