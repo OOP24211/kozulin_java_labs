@@ -1,0 +1,145 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+/* Подключаем обычное начертание */
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('fonts/Ubuntu-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Подключаем жирное начертание */
+@font-face {
+    font-family: 'Ubuntu';
+    src: url('fonts/Ubuntu-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Применяем ко всему проекту */
+* {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+/* Для инпутов и кнопок прописываем отдельно (они часто капризничают) */
+input, button, textarea, select {
+    font-family: 'Ubuntu', sans-serif;
+}
+body {
+  font-family: 'Ubuntu';
+  background: #1e1e2e;
+  color: #cdd6f4;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+h1 {
+  margin-bottom: 20px;
+  font-size: 40px;
+}
+#app {
+  width: 500px;
+  background: #313244;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#room-bar {
+  display: flex;
+  gap: 8px;
+}
+#room-bar input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #45475a;
+  color: #cdd6f4;
+}
+#room-bar button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #89b4fa;
+  color: #1e1e2e;
+  font-weight: bold;
+  cursor: pointer;
+}
+#messages {
+  height: 350px;
+  overflow-y: auto;
+  background: #1e1e2e;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.msg {
+  background: #45475a;
+  border-radius: 8px;
+  padding: 8px 12px;
+  max-width: 85%;
+}
+.msg .meta {
+  font-size: 12px;
+  color: #6c7086;
+  margin-bottom: 2px;
+}
+.msg .text {
+  font-size: 16px;
+}
+.msg.own {
+  background: #89b4fa;
+  color: #1e1e2e;
+  align-self: flex-end;
+}
+.msg.own .meta {
+  color: #1e1e2e99;
+}
+#send-bar {
+  display: flex;
+  gap: 8px;
+}
+#send-bar input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #45475a;
+  color: #cdd6f4;
+  font-size: 15px;
+}
+#send-bar button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #a6e3a1;
+  color: #1e1e2e;
+  font-weight: bold;
+  cursor: pointer;
+}
+#status {
+  font-size: 14px;
+  color: #6c7086;
+  text-align: center;
+}
+#name-bar {
+  display: flex;
+  gap: 8px;
+}
+#name-bar input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #45475a;
+  color: #cdd6f4;
+}

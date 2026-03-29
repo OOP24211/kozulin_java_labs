@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<h1>Chat App</h1>
+<div id="app">
+    <div id="name-bar">
+        <input id="username" placeholder="Твоё имя" value="User1"/>
+    </div>
+    <div id="room-bar">
+        <input id="room" placeholder="Комната" value="general"/>
+        <button onclick="joinRoom()">Войти</button>
+    </div>
+    <div id="messages"></div>
+    <div id="send-bar">
+        <input id="input" placeholder="Сообщение..." onkeydown="if(event.key==='Enter') sendMessage()"/>
+        <button onclick="sendMessage()">Отправить</button>
+    </div>
+    <div id="status">Не подключён</div>
+</div>
+    <script src="js/script.js"></script>
+</body>
+</html>
