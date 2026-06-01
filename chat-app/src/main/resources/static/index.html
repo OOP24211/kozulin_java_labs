@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="layout">
+    <aside id="sidebar">
+        <div id="user-greeting"></div>
+        <button id="logout-btn" onclick="doLogout()">Выйти</button>
+        <div id="new-room-bar">
+            <input id="room-input" placeholder="Новая комната"/>
+            <button onclick="joinRoomByInput()">+</button>
+        </div>
+        <div class="sidebar-label">Комнаты</div>
+        <ul id="room-list"></ul>
+    </aside>
+    <main id="chat">
+        <div id="chat-header">
+            <span id="current-room-title">Выберите комнату</span>
+        </div>
+        <div id="chat-body">
+            <div id="messages"></div>
+            <div id="user-panel">
+                <div class="sidebar-label">Онлайн</div>
+                <ul id="user-list"></ul>
+            </div>
+        </div>
+        <div id="send-bar">
+            <label id="attach-label" title="Прикрепить файл">
+                <input type="file" id="file-input" style="display:none" onchange="onFileSelected()"/>
+                <span>📎</span>
+            </label>
+            <input id="input" placeholder="Сообщение..." onkeydown="if(event.key===`Enter`) sendMessage()"/>
+            <button onclick="sendMessage()">Отправить</button>
+        </div>
+    </main>
+</div>
+
+<div id="file-modal" style="display:none">
+    <div id="file-modal-box">
+        <div id="file-modal-preview"></div>
+        <div id="file-modal-name"></div>
+        <input id="file-caption" placeholder="Подпись (необязательно)"/>
+        <div id="file-modal-btns">
+            <button onclick="cancelFile()">Отмена</button>
+            <button id="file-send-btn" onclick="sendFile()">Отправить</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js"></script>
+<div id="lightbox" style="display:none" onclick="closeLightbox()"><img id="lightbox-img" src=""/> </div></body>
+</html>
