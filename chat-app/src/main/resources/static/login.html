@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход - Chat App</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="auth-box">
+    <h2>Chat App</h2>
+    <div id="auth-tabs">
+        <button id="tab-login" class="tab active" onclick="showTab(this, 'login')">Войти</button>
+        <button id="tab-reg" class="tab" onclick="showTab(this, 'register')">Регистрация</button>
+    </div>
+    <div id="auth-error"></div>
+    <div id="form-login">
+        <input id="login-username" placeholder="Имя пользователя"/>
+        <input id="login-password" type="password" placeholder="Пароль"/>
+        <button onclick="doLogin()">Войти</button>
+    </div>
+    <div id="form-register" style="display:none">
+        <input id="reg-username" placeholder="Имя пользователя"/>
+        <input id="reg-password" type="password" placeholder="Пароль"/>
+        <input id="reg-password2" type="password" placeholder="Повторите пароль"/>
+        <button onclick="doRegister()">Зарегистрироваться</button>
+    </div>
+</div>
+<script>
+function showTab(btn, tab) {
+    document.querySelectorAll(".tab").forEach(function(b) { b.classList.remove("active"); });
+    btn.classList.add("active");
+    document.getElementById("form-login").style.display = tab === "login" ? "flex" : "none";
+    document.getElementById("form-register").style.display = tab === "register" ? "flex" : "none";
+    document.getElementById("auth-error").textContent = "";
+}
+
+function showError(msg) {
+    document.getElementById("auth-error").textContent = msg;
+}
+
+async function doLogin() {
+    var username = document.getElementById("login-username").value.trim();
+    var password = document.getElementById("login-password").value;
+    if (!username || !password) { showError("Заполните все поля"); return; }
+    var res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: username, password: password })
+    });
+    var data = await res.json();
+    if (!res.ok) { showError(data.error); return; }
+    sessionStorage.setItem("username", data.username);
+    window.location.href = "/index.html";
+}
+
+async function doRegister() {
+    var username = document.getElementById("reg-username").value.trim();
+    var password = document.getElementById("reg-password").value;
+    var password2 = document.getElementById("reg-password2").value;
+    if (!username || !password) { showError("Заполните все поля"); return; }
+    if (password !== password2) { showError("Пароли не совпадают"); return; }
+    var res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: username, password: password })
+    });
+    var data = await res.json();
+    if (!res.ok) { showError(data.error); return; }
+    sessionStorage.setItem("username", username);
+    window.location.href = "/index.html";
+}
+</script>
+</body>
+</html>
