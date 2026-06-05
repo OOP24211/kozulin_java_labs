@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Arbiter — Вход</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+<div class="page">
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" id="tab-login" onclick="switchTab('login')">Войти</button>
+      <button class="tab" id="tab-register" onclick="switchTab('register')">Регистрация</button>
+    </div>
+
+    <div id="msg" class="msg"></div>
+
+    <form class="form" id="form-login" onsubmit="handleLogin(event)">
+      <div class="field">
+        <label>Логин</label>
+        <input type="text" name="username" placeholder="username" autocomplete="username" required />
+      </div>
+      <div class="field">
+        <label>Пароль</label>
+        <input type="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+      <button class="btn" type="submit">Войти</button>
+    </form>
+
+    <form class="form" id="form-register" style="display:none" onsubmit="handleRegister(event)">
+      <div class="field">
+        <label>Логин</label>
+        <input type="text" name="username" placeholder="username" autocomplete="username" required minlength="3" maxlength="50" />
+      </div>
+      <div class="field">
+        <label>Пароль</label>
+        <input type="password" name="password" placeholder="минимум 8 символов" autocomplete="new-password" required minlength="8" />
+      </div>
+      <button class="btn" type="submit">Создать аккаунт</button>
+    </form>
+  </div>
+</div>
+<script src="js/login.js"></script>
+</body>
+</html>
