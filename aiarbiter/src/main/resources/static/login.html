@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Arbiter — Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+<div class="page">
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" id="tab-login" onclick="switchTab('login')">Sign in</button>
+      <button class="tab" id="tab-register" onclick="switchTab('register')">Sign up</button>
+    </div>
+
+    <div id="msg" class="msg"></div>
+
+    <form class="form" id="form-login" onsubmit="handleLogin(event)">
+      <div class="field">
+        <label>Login</label>
+        <input type="text" name="username" placeholder="username" autocomplete="username" required />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+      </div>
+      <button class="btn" type="submit">Login</button>
+    </form>
+
+    <form class="form" id="form-register" style="display:none" onsubmit="handleRegister(event)">
+      <div class="field">
+        <label>Login</label>
+        <input type="text" name="username" placeholder="username" autocomplete="username" required minlength="3" maxlength="50" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="min 8 characters" autocomplete="new-password" required minlength="8" pattern="[A-Za-z0-9!@#$%^&amp;*()_+\-=\[\]{};':&quot;|,.<>\/?`~\\]+" title="Password must contain only Latin letters, digits and special characters" />
+      </div>
+      <button class="btn" type="submit">Register</button>
+    </form>
+  </div>
+</div>
+<script src="js/login.js"></script>
+</body>
+</html>
