@@ -25,7 +25,7 @@ public class UserService implements UserDetailsService {
 
 public User register(RegisterRequest req) {
         if (userRepository.existsByUsername(req.username())) {
-            throw new IllegalArgumentException("Username already taken");
+            throw new IllegalArgumentException("Username already exists");
         }
         var user = new User();
         user.setUsername(req.username());

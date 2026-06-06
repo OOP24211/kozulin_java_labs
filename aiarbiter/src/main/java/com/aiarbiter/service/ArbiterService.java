@@ -59,14 +59,14 @@ public class ArbiterService {
             try { return workerA.completeWithTokens(request.task()); }
             catch (Exception e) {
                 log.warn("Worker A failed: {}", e.getMessage());
-                return new AiClient.CompletionResult("Ошибка: " + workerA.getName(), 0);
+                return new AiClient.CompletionResult("Error: " + workerA.getName(), 0);
             }
         }, executor);
         var futureB = CompletableFuture.supplyAsync(() -> {
             try { return workerB.completeWithTokens(request.task()); }
             catch (Exception e) {
                 log.warn("Worker B failed: {}", e.getMessage());
-                return new AiClient.CompletionResult("Ошибка: " + workerB.getName(), 0);
+                return new AiClient.CompletionResult("Error: " + workerB.getName(), 0);
             }
         }, executor);
 
@@ -79,7 +79,7 @@ public class ArbiterService {
             verdict = judge.completeWithSearch(judgePrompt);
         } catch (Exception e) {
             log.warn("Judge failed: {}", e.getMessage());
-            verdict = "Ошибка: судья не ответил";
+            verdict = "Error: judge did not respond";
         }
 
         return new ArbiterResponse(
@@ -111,8 +111,8 @@ public class ArbiterService {
         return response;
     }
 
-    private static final Pattern WINNER_A = Pattern.compile("(?si).*(победитель|winner)\\s*[:\\-]?\\s*a.*");
-    private static final Pattern WINNER_B = Pattern.compile("(?si).*(победитель|winner)\\s*[:\\-]?\\s*b.*");
+    private static final Pattern WINNER_A = Pattern.compile("(?si).*winner\\s*[:\\-]?\\s*a.*");
+    private static final Pattern WINNER_B = Pattern.compile("(?si).*winner\\s*[:\\-]?\\s*b.*");
 
     private String detectWinner(String verdict) {
         if (verdict == null) return null;
@@ -130,28 +130,28 @@ public class ArbiterService {
 
     private String buildJudgePrompt(String task, String a, String b) {
         return """
-                Ты — нейросеть-судья с доступом к веб-поиску.
+                You are an AI judge with access to web search.
 
-                Задача: %s
+                Task: %s
 
-                Ответ A: %s
+                Answer A: %s
 
-                Ответ B: %s
+                Answer B: %s
 
-                Инструкция:
-                1. Если в ответах есть факты, которые могут быть устаревшими или сомнительными — используй web_search для проверки.
-                2. Сравни ответы по критериям: точность, полнота, понятность, польза.
-                3. Укажи если какой-то ответ содержал ошибки или устаревшую информацию.
-                4. В конце ОБЯЗАТЕЛЬНО напиши ровно одну строку:
-                Победитель: A
-                или
-                Победитель: B
+                Instructions:
+                1. If any facts in the answers may be outdated or questionable — use web_search to verify.
+                2. Compare the answers by: accuracy, completeness, clarity, usefulness.
+                3. Note if any answer contained errors or outdated information.
+                4. At the end ALWAYS write exactly one line:
+                Winner: A
+                or
+                Winner: B
                 """.formatted(task, trimTo(a, 1500), trimTo(b, 1500));
     }
 
     private String trimTo(String text, int max) {
         return text != null && text.length() > max
-                ? text.substring(0, max) + "... [обрезано]"
+                ? text.substring(0, max) + "... [truncated]"
                 : text;
     }
 }

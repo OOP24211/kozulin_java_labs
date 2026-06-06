@@ -1,6 +1,10 @@
-const params = new URLSearchParams(location.search);
-if (params.has('error')) showMsg('Неверный логин или пароль', 'error');
-if (params.has('logout')) showMsg('Вы вышли из системы', 'success');
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(location.search);
+  if (params.has('logout')) {
+    showMsg('You have been logged out', 'success');
+    history.replaceState(null, '', location.pathname);
+  }
+});
 
 function switchTab(tab) {
   document.getElementById('form-login').style.display = tab === 'login' ? 'flex' : 'none';
@@ -24,8 +28,14 @@ async function handleLogin(e) {
   e.preventDefault();
   const form = e.target;
   const btn = form.querySelector('button');
-  btn.disabled = true;
   hideMsg();
+
+  if (!/^[A-Za-z0-9_]+$/.test(form.username.value)) {
+    showMsg('Username must contain only Latin letters, digits and underscores', 'error');
+    return;
+  }
+
+  btn.disabled = true;
 
   const body = new URLSearchParams();
   body.append('username', form.username.value);
@@ -36,15 +46,15 @@ async function handleLogin(e) {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: body.toString(),
-      redirect: 'manual',
+      redirect: 'follow',
     });
-    if (res.status === 200 || res.status === 302 || res.type === 'opaqueredirect') {
+    if (res.ok) {
       window.location.href = '/';
     } else {
-      showMsg('Неверный логин или пароль', 'error');
+      showMsg('Invalid login or password', 'error');
     }
   } catch {
-    showMsg('Ошибка соединения', 'error');
+    showMsg('Connection error', 'error');
   } finally {
     btn.disabled = false;
   }
@@ -54,8 +64,18 @@ async function handleRegister(e) {
   e.preventDefault();
   const form = e.target;
   const btn = form.querySelector('button');
-  btn.disabled = true;
   hideMsg();
+
+  if (!/^[A-Za-z0-9_]+$/.test(form.username.value)) {
+    showMsg('Username must contain only Latin letters, digits and underscores', 'error');
+    return;
+  }
+  if (!/^[A-Za-z0-9!@#$%^&*()_+\-=\[\]{};':"|,.<>\/?`~\\]+$/.test(form.password.value)) {
+    showMsg('Password must contain only Latin letters, digits and special characters', 'error');
+    return;
+  }
+
+  btn.disabled = true;
 
   try {
     const res = await fetch('/api/auth/register', {
@@ -67,15 +87,15 @@ async function handleRegister(e) {
       }),
     });
     if (res.ok) {
-      showMsg('Аккаунт создан! Войдите.', 'success');
+      showMsg('Account created! Please log in.', 'success');
       form.reset();
       setTimeout(() => switchTab('login'), 1200);
     } else {
       const data = await res.json().catch(() => ({}));
-      showMsg(data.detail || 'Ошибка регистрации', 'error');
+      showMsg(data.detail || 'Registration error', 'error');
     }
   } catch {
-    showMsg('Ошибка соединения', 'error');
+    showMsg('Connection error', 'error');
   } finally {
     btn.disabled = false;
   }

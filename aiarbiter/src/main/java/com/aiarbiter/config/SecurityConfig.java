@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .loginPage("/login.html")
                 .loginProcessingUrl("/api/auth/login")
                 .defaultSuccessUrl("/", true)
-                .failureUrl("/login.html?error=true")
+                .failureHandler((req, res, ex) -> res.setStatus(HttpStatus.UNAUTHORIZED.value()))
                 .permitAll()
             )
             .logout(logout -> logout
